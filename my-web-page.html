@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Image switch test</title>
+		<style type="text/css">
+			html body {
+				height: 100%;
+			}
+			.top-box {
+				height: 75px;
+				line-height: 75px;
+				width: 100%;
+				top: 0;
+				position: absolute;
+				border-bottom: solid;
+				border-bottom-color: blue;
+				border-bottom-width: 3px;
+				vertical-align: middle;
+			}
+			.top-box-font {
+				font-family: 幼圆;
+				font-weight: bold;
+				font-size: 40px;
+			}
+			.box {
+				position:relative;
+				height: 915px;
+				width: 70%;
+				margin-top: 5%;
+				margin-left: 15%;
+				margin-right:15%;
+				/*text-align: center;
+				vertical-align: middle;*/
+			}
+			.box img {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				max-width: 100%;
+				height: auto;
+			}
+			#btn-prev {
+				left: 0;
+				bottom: 0;
+				height: 92%;
+				font-size: 50px;
+				position: absolute;
+				color: gray;
+				width: 15%;
+			}
+			#btn-next {
+				right: 0;
+				bottom: 0;
+				height: 92%;
+				font-size: 50px;
+				color: gray;
+				position:absolute;
+				width: 15%
+			}
+		</style>
+	</head>
+	<body>
+		<div class="top-box">
+			<span class="top-box-font">单击屏幕两侧切换图片</span>
+		</div>
+
+		<div>
+			<button id="btn-prev" onclick="switchImage(0)" onmouseover="showText(0)" onmouseout="hideText(0)">上<br><br>一<br><br>张</button>
+		</div>
+
+		<div>
+			<button id="btn-next" onclick="switchImage(1)" onmouseover="showText(1)" onmouseout="hideText(1)">下<br><br>一<br><br>张</button>
+		</div>
+
+		<div class="box">
+			<img src="https://repository-images.githubusercontent.com/139493629/c438f200-586c-11ea-99da-b64e59deeed3" alt="pic" id="img" onload="javascript:if(this.height>MaxHeight)this.height=MaxHeight;if(this.width>MaxWidth)this.width=MaxWidth;">
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+		<script type="text/javascript">
+			/*store all the images*/
+			var imgs = [
+			'https://repository-images.githubusercontent.com/139493629/c438f200-586c-11ea-99da-b64e59deeed3',
+
+			'https://bkimg.cdn.bcebos.com/pic/7af40ad162d9f2d3c5649c22aeec8a136227cc82?x-bce-process=image/watermark,image_d2F0ZXIvYmFpa2U4MA==,g_7,xp_5,yp_5/format,f_auto',
+
+			'http://img30.360buyimg.com/popWareDetail/jfs/t1/203474/16/4337/102125/613079a2E056f9bb6/2995809a7b109b91.jpg'
+			];
+			/*pre-process*/
+			var MaxHeight = window.height;
+				MaxWidth = window.width;
+			    index = 0;
+			    len = imgs.length;
+			function switchImage(op) {
+				if (op === 0) {
+					index--;
+					if (index < 0) {
+						alert("当前已为第一张图片");
+						index = 0;
+					}
+				}
+				else {
+					index++;
+					if (index >= len) {
+						alert("当前已为最后一张图片");
+						index = len - 1;
+					}
+				}
+				$("#img").attr('src', imgs[index]);
+			}
+			function showText(op) {
+				var typ = (op === 0 ? 'btn-prev' : 'btn-next');
+				var button = document.getElementsById(typ);
+				button.innerHTML = (op === 0 ? "上":"下") + "\n一\n张";
+			}
+			function hideText(op) {
+				var typ = op === 0 ? 'btn-prev' : 'btn-next';
+				var button = document.getElementsById(typ);
+				button.innerHTML = "";
+			}
+		</script>
+	</body>
+</html>
